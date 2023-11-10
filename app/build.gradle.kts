@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "at.fhj.hofer_cart"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "at.fhj.hofer_cart"
