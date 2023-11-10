@@ -24,6 +24,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import at.fhj.hofer_cart.ui.theme.Hofer_cartTheme
 
+val groceryItemComparator = compareBy<GroceryItem> { it.category }.thenBy { it.name }
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,12 +44,11 @@ class MainActivity : ComponentActivity() {
 }
 
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ShoppingView() {
     var text by remember { mutableStateOf("") }
-    var items by remember { mutableStateOf(listOf<String>()) }
+    var items by remember { mutableStateOf(listOf<GroceryItem>()) }
 
     Surface(
         modifier = Modifier.fillMaxSize(),
@@ -77,7 +77,81 @@ fun ShoppingView() {
                         label = { Text("Enter item") }
                     )
 
-                    Button(onClick = { items = items + text }) {
+                    Button(onClick = {
+                        items += GroceryItem(
+                            amount = 2,
+                            unit = "kg",
+                            name = "Apples",
+                            category = FoodCategory.FRUITS
+                        )
+                        items += GroceryItem(
+                            amount = 1,
+                            unit = "pack",
+                            name = "Salad",
+                            category = FoodCategory.VEGETABLES
+                        )
+                        items += GroceryItem(
+                            amount = 2,
+                            unit = "kg",
+                            name = "Chicken Breast",
+                            category = FoodCategory.MEAT
+                        )
+                        items += GroceryItem(
+                            amount = 500,
+                            unit = "grams",
+                            name = "Ground Beef",
+                            category = FoodCategory.MEAT
+                        )
+                        items += GroceryItem(
+                            amount = 1,
+                            unit = "loaf",
+                            name = "Whole Wheat Bread",
+                            category = FoodCategory.BAKERY
+                        )
+                        items += GroceryItem(
+                            amount = 6,
+                            unit = "pieces",
+                            name = "Croissants",
+                            category = FoodCategory.BAKERY
+                        )
+                        items += GroceryItem(
+                            amount = 2,
+                            unit = "liters",
+                            name = "Apple Juice",
+                            category = FoodCategory.BEVERAGES
+                        )
+                        items += GroceryItem(
+                            amount = 1,
+                            unit = "bottle",
+                            name = "Mineral Water",
+                            category = FoodCategory.BEVERAGES
+                        )
+                        items += GroceryItem(
+                            amount = 1,
+                            unit = "pack",
+                            name = "Potato Chips",
+                            category = FoodCategory.SNACKS
+                        )
+                        items += GroceryItem(
+                            amount = 200,
+                            unit = "grams",
+                            name = "Mixed Nuts",
+                            category = FoodCategory.SNACKS
+                        )
+                        items += GroceryItem(
+                            amount = 1,
+                            unit = "pack",
+                            name = "Frozen Peas",
+                            category = FoodCategory.FROZEN
+                        )
+                        items += GroceryItem(
+                            amount = 500,
+                            unit = "grams",
+                            name = "Ice Cream",
+                            category = FoodCategory.FROZEN
+                        )
+
+                    }) {
                         Icon(Icons.Default.Add, contentDescription = "Add")
                     }
                 }
@@ -87,10 +161,12 @@ fun ShoppingView() {
             LazyColumn {
                 items(items) { item ->
                     Card(
-                        modifier = Modifier.fillMaxWidth().padding(8.dp),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(8.dp),
                     ) {
                         Text(
-                            text = item,
+                            text = item.toString(),
                             modifier = Modifier.padding(8.dp),
                             style = MaterialTheme.typography.bodyLarge
                         )
