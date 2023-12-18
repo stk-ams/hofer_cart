@@ -104,10 +104,10 @@ fun ShoppingView() {
                             category = FoodCategory.MEAT
                         )
                         items += GroceryItem(
-                            amount = 500,
-                            unit = "grams",
-                            name = "Ground Beef",
-                            category = FoodCategory.MEAT
+                            amount = 2,
+                            unit = "liters",
+                            name = "Apple Juice",
+                            category = FoodCategory.BEVERAGES
                         )
                         items += GroceryItem(
                             amount = 1,
@@ -116,16 +116,16 @@ fun ShoppingView() {
                             category = FoodCategory.BAKERY
                         )
                         items += GroceryItem(
+                            amount = 500,
+                            unit = "grams",
+                            name = "Ground Beef",
+                            category = FoodCategory.MEAT
+                        )
+                        items += GroceryItem(
                             amount = 6,
                             unit = "pieces",
                             name = "Croissants",
                             category = FoodCategory.BAKERY
-                        )
-                        items += GroceryItem(
-                            amount = 2,
-                            unit = "liters",
-                            name = "Apple Juice",
-                            category = FoodCategory.BEVERAGES
                         )
                         items += GroceryItem(
                             amount = 1,
@@ -157,6 +157,7 @@ fun ShoppingView() {
                             name = "Ice Cream",
                             category = FoodCategory.FROZEN
                         )
+                        items = items.sortedWith(groceryItemComparator)
 
                     }) {
                         Icon(Icons.Default.Add, contentDescription = "Add")
