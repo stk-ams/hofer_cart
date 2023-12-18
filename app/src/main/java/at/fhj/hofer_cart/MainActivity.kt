@@ -17,12 +17,15 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
+import androidx.compose.material3.DismissDirection
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
+import androidx.compose.material3.SwipeToDismiss
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberDismissState
 import at.fhj.hofer_cart.ui.theme.Hofer_cartTheme
 
 val groceryItemComparator = compareBy<GroceryItem> { it.category }.thenBy { it.name }
@@ -116,12 +119,6 @@ fun ShoppingView() {
                             category = FoodCategory.BAKERY
                         )
                         items += GroceryItem(
-                            amount = 500,
-                            unit = "grams",
-                            name = "Ground Beef",
-                            category = FoodCategory.MEAT
-                        )
-                        items += GroceryItem(
                             amount = 6,
                             unit = "pieces",
                             name = "Croissants",
@@ -166,24 +163,37 @@ fun ShoppingView() {
 
 
             }
+
             LazyColumn {
                 items(items) { item ->
-                    Card(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(8.dp),
-                    ) {
-                        Text(
-                            text = item.toString(),
-                            modifier = Modifier.padding(8.dp),
-                            style = MaterialTheme.typography.bodyLarge
-                        )
-                        Button(onClick = { items = items.filter { it != item } }) {
-                            Icon(Icons.Default.Delete, contentDescription = "Delete")
+                    val dismissState = rememberDismissState()
+                    SwipeToDismiss(
+                        state = dismissState,
+                        directions = setOf(DismissDirection.EndToStart),
+                        background = { /* Add background if needed */ },
+                        dismissContent = {
+                            Card(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(8.dp)
+                            ) {
+                                Text(
+                                    text = item.toString(),
+                                    modifier = Modifier.padding(8.dp),
+                                    style = MaterialTheme.typography.bodyLarge
+                                )
+                            }
+                        }
+                    )
+
+                    LaunchedEffect(key1 = dismissState.isDismissed(DismissDirection.EndToStart)) {
+                        if (dismissState.isDismissed(DismissDirection.EndToStart)) {
+                            items = items.filter { it != item }
                         }
                     }
                 }
             }
+
         }
     }
 }
