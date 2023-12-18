@@ -14,6 +14,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -78,6 +79,12 @@ fun ShoppingView() {
                     )
 
                     Button(onClick = {
+                        items += GroceryItem(
+                            amount = 1,
+                            unit = "kg",
+                            name = "Beef",
+                            category = FoodCategory.MEAT
+                        )
                         items += GroceryItem(
                             amount = 2,
                             unit = "kg",
@@ -170,6 +177,9 @@ fun ShoppingView() {
                             modifier = Modifier.padding(8.dp),
                             style = MaterialTheme.typography.bodyLarge
                         )
+                        Button(onClick = { items = items.filter { it != item } }) {
+                            Icon(Icons.Default.Delete, contentDescription = "Delete")
+                        }
                     }
                 }
             }
