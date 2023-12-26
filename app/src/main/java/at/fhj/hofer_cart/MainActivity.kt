@@ -165,8 +165,9 @@ fun ShoppingView() {
             }
 
             LazyColumn {
-                items(items) { item ->
+                items(items, key = { item -> item.id }) { item -> // Assuming 'item' has a unique 'id' property
                     val dismissState = rememberDismissState()
+
                     SwipeToDismiss(
                         state = dismissState,
                         directions = setOf(DismissDirection.EndToStart),
@@ -188,11 +189,12 @@ fun ShoppingView() {
 
                     LaunchedEffect(key1 = dismissState.isDismissed(DismissDirection.EndToStart)) {
                         if (dismissState.isDismissed(DismissDirection.EndToStart)) {
-                            items = items.filter { it != item }
+                            items -= item
                         }
                     }
                 }
             }
+
 
         }
     }
