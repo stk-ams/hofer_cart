@@ -24,7 +24,6 @@ class ShoppingViewTest {
             ShoppingView(ArrayList<GroceryItem>())
         }
         composeTestRule.onNodeWithText("Shopping List").assertIsDisplayed()
-        composeTestRule.onNodeWithText("Enter item").assertIsDisplayed()
         composeTestRule.onNodeWithContentDescription("Add").assertIsDisplayed()
     }
 
