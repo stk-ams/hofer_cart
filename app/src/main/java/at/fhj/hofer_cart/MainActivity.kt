@@ -26,22 +26,29 @@ import androidx.compose.material3.SwipeToDismiss
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDismissState
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.sp
 import at.fhj.hofer_cart.ui.theme.Hofer_cartTheme
 import java.io.Serializable
 
 val groceryItemComparator = compareBy<GroceryItem> { it.category }.thenBy { it.name }
-
+private lateinit var appDatabase:AppDatabase
 class MainActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        appDatabase = AppDatabase.getDatabase(this)
         val intent = intent
-        var obj:ArrayList<GroceryItem> = ArrayList<GroceryItem>()
+        var obj:List<GroceryItem> = ArrayList<GroceryItem>()
 
         if(intent.hasExtra("BUNDLE")){
             val args = intent.getBundleExtra("BUNDLE")
             obj = args?.getSerializable("LIST") as ArrayList<GroceryItem>
         }
+        if(obj.isEmpty()){
+            obj = appDatabase.GroceryItemDao().getAll() as ArrayList<GroceryItem>
+        }
+        obj = obj.sortedWith(groceryItemComparator)
 
         setContent {
             Hofer_cartTheme {
@@ -60,11 +67,11 @@ class MainActivity : ComponentActivity() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ShoppingView(itemList: ArrayList<GroceryItem>) {
+fun ShoppingView(itemList: List<GroceryItem>) {
     var text by remember { mutableStateOf("") }
     var items by remember { mutableStateOf(listOf<GroceryItem>()) }
 
-    if(itemList != null && itemList.size != 0){
+    if(itemList != null && itemList.isNotEmpty()){
         items = itemList
     }
 
@@ -88,11 +95,9 @@ fun ShoppingView(itemList: ArrayList<GroceryItem>) {
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    OutlinedTextField(
-                        modifier = Modifier.weight(1f),
-                        value = text,
-                        onValueChange = { text = it },
-                        label = { Text("Enter item") }
+                    Text(
+                        text = "HoferCart" ,
+                        fontSize = 30.sp,
                     )
 
                     val context = LocalContext.current
@@ -137,6 +142,7 @@ fun ShoppingView(itemList: ArrayList<GroceryItem>) {
 
                     LaunchedEffect(key1 = dismissState.isDismissed(DismissDirection.EndToStart)) {
                         if (dismissState.isDismissed(DismissDirection.EndToStart)) {
+                            appDatabase.GroceryItemDao().deleteByLocalQuestionId(item.id)
                             items -= item
                         }
                     }

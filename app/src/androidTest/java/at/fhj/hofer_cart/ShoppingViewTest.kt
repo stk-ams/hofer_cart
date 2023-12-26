@@ -10,7 +10,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-// TODO Fix Tests!
+
 @OptIn(ExperimentalMaterial3Api::class)
 @RunWith(AndroidJUnit4::class)
 class ShoppingViewTest {
@@ -21,7 +21,7 @@ class ShoppingViewTest {
     @Test
     fun testShoppingView() {
         composeTestRule.setContent {
-            ShoppingView(newGroceryItem)
+            ShoppingView(ArrayList<GroceryItem>())
         }
         composeTestRule.onNodeWithText("Shopping List").assertIsDisplayed()
         composeTestRule.onNodeWithText("Enter item").assertIsDisplayed()
@@ -29,11 +29,11 @@ class ShoppingViewTest {
     }
 
     @Test
-    fun testDisplayItem() {
+    fun testAddItemView() {
         composeTestRule.setContent {
-            ShoppingView(newGroceryItem)
+            ShoppingView(ArrayList<GroceryItem>())
         }
         composeTestRule.onNodeWithContentDescription("Add").performClick()
-        composeTestRule.onNodeWithText("Beef MEAT").assertIsDisplayed()
+        composeTestRule.onNodeWithText("Add Item").assertIsDisplayed()
     }
 }

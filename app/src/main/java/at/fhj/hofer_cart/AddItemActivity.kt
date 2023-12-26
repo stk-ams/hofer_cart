@@ -26,10 +26,12 @@ import androidx.compose.ui.unit.dp
 import at.fhj.hofer_cart.ui.theme.Hofer_cartTheme
 import java.io.Serializable
 
-
+private lateinit var appDatabase:AppDatabase
 class AddItemActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        appDatabase = AppDatabase.getDatabase(this)
+
 
         val intent = intent
         var obj:ArrayList<GroceryItem> = ArrayList<GroceryItem>()
@@ -159,6 +161,7 @@ fun AddItemView(obj: ArrayList<GroceryItem>) {
             if(nameIsValid && amountIsValid && unitIsValid && categoryIsValid){
                 try{
                     val newGroceryItem = GroceryItem(name = name, amount = amount.toInt(), unit = unit, category = category)
+                    appDatabase.GroceryItemDao().insert(newGroceryItem)
                     obj += newGroceryItem
                     val intent = Intent(context, MainActivity::class.java)
                     val arguments = Bundle()
