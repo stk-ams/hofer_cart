@@ -1,5 +1,6 @@
 package at.fhj.hofer_cart
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
@@ -26,6 +27,8 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.SwipeToDismiss
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDismissState
+import androidx.compose.ui.platform.LocalContext
+import androidx.core.content.ContextCompat.startActivity
 import at.fhj.hofer_cart.ui.theme.Hofer_cartTheme
 
 val groceryItemComparator = compareBy<GroceryItem> { it.category }.thenBy { it.name }
@@ -81,80 +84,10 @@ fun ShoppingView() {
                         label = { Text("Enter item") }
                     )
 
+                    val context = LocalContext.current
+
                     Button(onClick = {
-                        items += GroceryItem(
-                            amount = 1,
-                            unit = "kg",
-                            name = "Beef",
-                            category = FoodCategory.MEAT
-                        )
-                        items += GroceryItem(
-                            amount = 2,
-                            unit = "kg",
-                            name = "Apples",
-                            category = FoodCategory.FRUITS
-                        )
-                        items += GroceryItem(
-                            amount = 1,
-                            unit = "pack",
-                            name = "Salad",
-                            category = FoodCategory.VEGETABLES
-                        )
-                        items += GroceryItem(
-                            amount = 2,
-                            unit = "kg",
-                            name = "Chicken Breast",
-                            category = FoodCategory.MEAT
-                        )
-                        items += GroceryItem(
-                            amount = 2,
-                            unit = "liters",
-                            name = "Apple Juice",
-                            category = FoodCategory.BEVERAGES
-                        )
-                        items += GroceryItem(
-                            amount = 1,
-                            unit = "loaf",
-                            name = "Whole Wheat Bread",
-                            category = FoodCategory.BAKERY
-                        )
-                        items += GroceryItem(
-                            amount = 6,
-                            unit = "pieces",
-                            name = "Croissants",
-                            category = FoodCategory.BAKERY
-                        )
-                        items += GroceryItem(
-                            amount = 1,
-                            unit = "bottle",
-                            name = "Mineral Water",
-                            category = FoodCategory.BEVERAGES
-                        )
-                        items += GroceryItem(
-                            amount = 1,
-                            unit = "pack",
-                            name = "Potato Chips",
-                            category = FoodCategory.SNACKS
-                        )
-                        items += GroceryItem(
-                            amount = 200,
-                            unit = "grams",
-                            name = "Mixed Nuts",
-                            category = FoodCategory.SNACKS
-                        )
-                        items += GroceryItem(
-                            amount = 1,
-                            unit = "pack",
-                            name = "Frozen Peas",
-                            category = FoodCategory.FROZEN
-                        )
-                        items += GroceryItem(
-                            amount = 500,
-                            unit = "grams",
-                            name = "Ice Cream",
-                            category = FoodCategory.FROZEN
-                        )
-                        items = items.sortedWith(groceryItemComparator)
+                        context.startActivity(Intent(context, AddItemActivity::class.java))
 
                     }) {
                         Icon(Icons.Default.Add, contentDescription = "Add")
