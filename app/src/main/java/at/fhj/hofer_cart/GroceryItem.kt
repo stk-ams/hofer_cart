@@ -9,7 +9,8 @@ enum class FoodCategory {
     BAKERY,
     BEVERAGES,
     SNACKS,
-    FROZEN
+    FROZEN,
+    OTHER
 }
 
 data class GroceryItem(
