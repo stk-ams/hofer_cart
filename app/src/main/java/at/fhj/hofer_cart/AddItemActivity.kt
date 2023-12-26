@@ -50,15 +50,37 @@ fun AddItemView() {
     var category by remember { mutableStateOf(FoodCategory.OTHER) }
     var selected by remember { mutableStateOf(false)}
 
+
+    var nameIsValid by remember { mutableStateOf(false) }
+    var nameEntered by remember { mutableStateOf(false) }
+
+    var amountIsValid by remember { mutableStateOf(false) }
+    var amountEntered by remember { mutableStateOf(false) }
+
+    var unitIsValid by remember { mutableStateOf(false) }
+    var unitEntered by remember { mutableStateOf(false) }
+
+    var categoryIsValid by remember { mutableStateOf(false) }
+
+    var enterPressed by remember { mutableStateOf(false) }
+
     Column(modifier = Modifier.padding(16.dp)) {
         Text(text = "Add Grocery Item", style = MaterialTheme.typography.bodyLarge, color = MaterialTheme.colorScheme.onPrimary)
         Spacer(modifier = Modifier.height(16.dp))
 
         OutlinedTextField(
             value = name,
-            onValueChange = { name = it },
+            onValueChange = { input ->
+                name = input
+                nameIsValid = input.isNotEmpty() && input.isNotBlank()
+                nameEntered = true;
+            },
+
             label = { Text("Name") }
         )
+        if (nameEntered && !nameIsValid) {
+            Text(text = "Please enter a valid name", color = Color.Red)
+        }
         Spacer(modifier = Modifier.height(16.dp))
 
         OutlinedTextField(
@@ -68,25 +90,65 @@ fun AddItemView() {
             value = amount,
             onValueChange = {
                 if ((it.isEmpty() || it.toDoubleOrNull()!=null) &&!it.contains(" "))  amount = it
+                amountIsValid = it.isNotEmpty() && it.isNotBlank()
+                amountEntered = true
             },
             label = { Text("Amount") }
         )
+        if (amountEntered && !amountIsValid) {
+            Text(text = "Please enter a valid amount", color = Color.Red)
+        }
         Spacer(modifier = Modifier.height(16.dp))
 
         OutlinedTextField(
             value = unit,
-            onValueChange = { unit = it },
+            onValueChange = { input ->
+                unit = input
+                unitIsValid = input.isNotEmpty()  && input.isNotBlank()
+                unitEntered = true;
+            },
             label = { Text("Unit") }
         )
+        if (unitEntered && !unitIsValid) {
+            Text(text = "Please enter a valid unit", color = Color.Red)
+        }
         Spacer(modifier = Modifier.height(16.dp))
 
         CategoryDropdownMenu(selected = selected, items = FoodCategory.values().toList(), selectedItem = category, onItemSelected = { category = it
         selected = true})
 
+        categoryIsValid = if(!selected && enterPressed){
+            Text(text = "Please enter a valid category", color = Color.Red)
+            false
+        }else{
+            true
+        }
+
 
         Spacer(modifier = Modifier.height(16.dp))
 
         Button(onClick = {
+            if(!nameEntered){
+                nameEntered = true
+                nameIsValid = false
+            }
+
+            if(!amountEntered){
+                amountEntered = true
+                amountIsValid = false
+            }
+
+            if(!unitEntered){
+                unitEntered = true
+                unitIsValid = false
+            }
+            enterPressed = true
+
+            if(nameIsValid && amountIsValid && unitIsValid && categoryIsValid){
+
+            }
+
+
             // Handle the click event here
             // For example, you can create a new GroceryItem and add it to your list
         }) {
