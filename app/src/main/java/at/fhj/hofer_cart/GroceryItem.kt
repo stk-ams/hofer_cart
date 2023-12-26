@@ -1,5 +1,7 @@
 package at.fhj.hofer_cart
 
+import java.util.UUID
+
 enum class FoodCategory {
     FRUITS,
     VEGETABLES,
@@ -11,6 +13,7 @@ enum class FoodCategory {
 }
 
 data class GroceryItem(
+    val id: String = UUID.randomUUID().toString(),
     val amount: Int,
     val unit: String,
     val name: String,
