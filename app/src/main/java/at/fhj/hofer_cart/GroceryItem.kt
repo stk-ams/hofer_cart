@@ -1,5 +1,6 @@
 package at.fhj.hofer_cart
 
+import java.io.Serializable
 import java.util.UUID
 
 enum class FoodCategory {
@@ -19,7 +20,7 @@ data class GroceryItem(
     val unit: String,
     val name: String,
     val category: FoodCategory
-) {
+) : Serializable{
     override fun toString(): String {
         return "$name $category"
     }

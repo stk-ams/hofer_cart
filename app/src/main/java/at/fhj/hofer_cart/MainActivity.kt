@@ -7,7 +7,6 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -15,7 +14,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.DismissDirection
@@ -28,14 +26,23 @@ import androidx.compose.material3.SwipeToDismiss
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDismissState
 import androidx.compose.ui.platform.LocalContext
-import androidx.core.content.ContextCompat.startActivity
 import at.fhj.hofer_cart.ui.theme.Hofer_cartTheme
+import java.io.Serializable
 
 val groceryItemComparator = compareBy<GroceryItem> { it.category }.thenBy { it.name }
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val intent = intent
+        var obj:ArrayList<GroceryItem> = ArrayList<GroceryItem>()
+
+        if(intent.hasExtra("BUNDLE")){
+            val args = intent.getBundleExtra("BUNDLE")
+            obj = args?.getSerializable("LIST") as ArrayList<GroceryItem>
+        }
+
         setContent {
             Hofer_cartTheme {
                 // A surface container using the 'background' color from the theme
@@ -43,7 +50,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    ShoppingView()
+                    ShoppingView(obj)
                 }
             }
         }
@@ -53,9 +60,13 @@ class MainActivity : ComponentActivity() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ShoppingView() {
+fun ShoppingView(itemList: ArrayList<GroceryItem>) {
     var text by remember { mutableStateOf("") }
     var items by remember { mutableStateOf(listOf<GroceryItem>()) }
+
+    if(itemList != null && itemList.size != 0){
+        items = itemList
+    }
 
     Surface(
         modifier = Modifier.fillMaxSize(),
@@ -87,7 +98,11 @@ fun ShoppingView() {
                     val context = LocalContext.current
 
                     Button(onClick = {
-                        context.startActivity(Intent(context, AddItemActivity::class.java))
+                        val intent = Intent(context, AddItemActivity::class.java)
+                        val arguments = Bundle()
+                        arguments.putSerializable("LIST", items as Serializable)
+                        intent.putExtra("BUNDLE", arguments)
+                        context.startActivity(intent)
 
                     }) {
                         Icon(Icons.Default.Add, contentDescription = "Add")

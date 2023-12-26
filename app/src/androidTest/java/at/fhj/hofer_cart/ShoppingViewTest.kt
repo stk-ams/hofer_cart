@@ -6,12 +6,11 @@ import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
-import androidx.compose.ui.test.performTextInput
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-
+// TODO Fix Tests!
 @OptIn(ExperimentalMaterial3Api::class)
 @RunWith(AndroidJUnit4::class)
 class ShoppingViewTest {
@@ -22,7 +21,7 @@ class ShoppingViewTest {
     @Test
     fun testShoppingView() {
         composeTestRule.setContent {
-            ShoppingView()
+            ShoppingView(newGroceryItem)
         }
         composeTestRule.onNodeWithText("Shopping List").assertIsDisplayed()
         composeTestRule.onNodeWithText("Enter item").assertIsDisplayed()
@@ -32,7 +31,7 @@ class ShoppingViewTest {
     @Test
     fun testDisplayItem() {
         composeTestRule.setContent {
-            ShoppingView()
+            ShoppingView(newGroceryItem)
         }
         composeTestRule.onNodeWithContentDescription("Add").performClick()
         composeTestRule.onNodeWithText("Beef MEAT").assertIsDisplayed()
