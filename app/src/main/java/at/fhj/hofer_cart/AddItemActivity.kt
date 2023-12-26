@@ -8,6 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -18,6 +19,8 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.input.KeyboardType
 import at.fhj.hofer_cart.ui.theme.Hofer_cartTheme
 
 
@@ -59,8 +62,13 @@ fun AddItemView() {
         Spacer(modifier = Modifier.height(16.dp))
 
         OutlinedTextField(
+            singleLine = true,
+            keyboardOptions =
+            KeyboardOptions.Default.copy(keyboardType = KeyboardType.Decimal),
             value = amount,
-            onValueChange = { amount = it },
+            onValueChange = {
+                if ((it.isEmpty() || it.toDoubleOrNull()!=null) &&!it.contains(" "))  amount = it
+            },
             label = { Text("Amount") }
         )
         Spacer(modifier = Modifier.height(16.dp))
