@@ -1,20 +1,21 @@
 package at.fhj.hofer_cart
 
+import androidx.compose.ui.platform.LocalContext
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.io.Serializable
 import java.util.UUID
 
-enum class FoodCategory {
-    FRUITS,
-    VEGETABLES,
-    MEAT,
-    BAKERY,
-    BEVERAGES,
-    SNACKS,
-    FROZEN,
-    OTHER
+enum class FoodCategory(val stringId: Int) {
+    FRUITS(R.string.fruits),
+    VEGETABLES(R.string.vegetables),
+    MEAT(R.string.meat),
+    BAKERY(R.string.bakery),
+    BEVERAGES(R.string.beverages),
+    SNACKS(R.string.snacks),
+    FROZEN(R.string.frozen),
+    OTHER(R.string.other)
 }
 @Entity
 data class GroceryItem(

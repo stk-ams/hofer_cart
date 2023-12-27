@@ -86,7 +86,7 @@ fun ShoppingView(itemList: List<GroceryItem>) {
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = "Shopping List",
+                    text = context.getString(R.string.shoppingList),
                     style = MaterialTheme.typography.bodyLarge,
                     color = MaterialTheme.colorScheme.onPrimary
                 )

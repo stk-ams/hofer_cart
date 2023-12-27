@@ -1,4 +1,5 @@
 <resources>
+    <string name="shoppingList">Shopping List</string>
     <string name="app_name">hofer_cart</string>
     <string name="title">HoferCart</string>
     <string name="name">Name</string>
@@ -11,4 +12,13 @@
     <string name="errorAmount">"Please enter a valid amount"</string>
     <string name="errorUnit">"Please enter a valid unit"</string>
     <string name="errorCategory">"Please enter a valid category"</string>
+
+    <string name="fruits">"Fruits"</string>
+    <string name="vegetables">"Vegetables"</string>
+    <string name="meat">"Meat"</string>
+    <string name="bakery">"Bakery"</string>
+    <string name="beverages">"Beverages"</string>
+    <string name="snacks">"Snacks"</string>
+    <string name="frozen">"Frozen"</string>
+    <string name="other">"Other"</string>
 </resources>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="shoppingList">Einkaufsliste</string>
     <string name="app_name">hofer_cart</string>
     <string name="title">HoferWagen</string>
     <string name="name">Titel</string>
@@ -12,4 +13,13 @@
     <string name="errorAmount">"Bitte geben Sie eine gültige Anzahl ein"</string>
     <string name="errorUnit">"Bitte geben Sie eine gültige Einheit ein"</string>
     <string name="errorCategory">"Bitte geben Sie eine gültige Kategorie ein"</string>
+
+    <string name="fruits">"Früchte"</string>
+    <string name="vegetables">"Gemüse"</string>
+    <string name="meat">"Fleisch"</string>
+    <string name="bakery">"Bäckerei"</string>
+    <string name="beverages">"Getränke"</string>
+    <string name="snacks">"Zwischenmahlzeit"</string>
+    <string name="frozen">"Gefroren"</string>
+    <string name="other">"Andere"</string>
 </resources>

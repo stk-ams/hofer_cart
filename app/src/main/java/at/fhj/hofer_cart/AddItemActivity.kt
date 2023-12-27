@@ -194,7 +194,7 @@ fun CategoryDropdownMenu(selected:Boolean, items: List<FoodCategory>, selectedIt
         }
     ) {
         var itemName = if(selected){
-            selectedItem.name
+            context.getString(selectedItem.stringId)
         }else{
             ""
         }
@@ -222,7 +222,7 @@ fun CategoryDropdownMenu(selected:Boolean, items: List<FoodCategory>, selectedIt
             items.forEach { option ->
                 DropdownMenuItem(
                     text = {
-                        Text(text = option.name)
+                        Text(text = context.getString(option.stringId))
                     },
                     onClick = {
                         isExpanded = false
