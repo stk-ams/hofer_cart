@@ -8,17 +8,18 @@
     <string name="category">Category</string>
     <string name="addItem">Add Item</string>
 
-    <string name="errorName">"Please enter a valid name"</string>
-    <string name="errorAmount">"Please enter a valid amount"</string>
-    <string name="errorUnit">"Please enter a valid unit"</string>
-    <string name="errorCategory">"Please enter a valid category"</string>
+    <string name="errorName">Please enter a valid name</string>
+    <string name="errorAmount">Please enter a valid amount</string>
+    <string name="errorUnit">Please enter a valid unit</string>
+    <string name="errorCategory">Please enter a valid category</string>
 
-    <string name="fruits">"Fruits"</string>
-    <string name="vegetables">"Vegetables"</string>
-    <string name="meat">"Meat"</string>
-    <string name="bakery">"Bakery"</string>
-    <string name="beverages">"Beverages"</string>
-    <string name="snacks">"Snacks"</string>
-    <string name="frozen">"Frozen"</string>
-    <string name="other">"Other"</string>
+    <string name="fruits">Fruits</string>
+    <string name="vegetables">Vegetables</string>
+    <string name="meat">Meat</string>
+    <string name="bakery">Bakery</string>
+    <string name="beverages">Beverages</string>
+    <string name="snacks">Snacks</string>
+    <string name="frozen">Frozen</string>
+    <string name="other">Other</string>
+
 </resources>

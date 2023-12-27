@@ -2,6 +2,7 @@ package at.fhj.hofer_cart
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
@@ -30,28 +31,33 @@ private lateinit var appDatabase:AppDatabase
 class AddItemActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        appDatabase = AppDatabase.getDatabase(this)
+        try{
+            appDatabase = AppDatabase.getDatabase(this)
 
 
-        val intent = intent
-        var obj:ArrayList<GroceryItem> = ArrayList<GroceryItem>()
+            val intent = intent
+            var obj:ArrayList<GroceryItem> = ArrayList<GroceryItem>()
 
-        if(intent.hasExtra("BUNDLE")){
-            val args = intent.getBundleExtra("BUNDLE")
-            obj = args?.getSerializable("LIST") as ArrayList<GroceryItem>
-        }
+            if(intent.hasExtra("BUNDLE")){
+                val args = intent.getBundleExtra("BUNDLE")
+                obj = args?.getSerializable("LIST") as ArrayList<GroceryItem>
+            }
 
-        setContent {
-            Hofer_cartTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    AddItemView(obj)
+            setContent {
+                Hofer_cartTheme {
+                    // A surface container using the 'background' color from the theme
+                    Surface(
+                        modifier = Modifier.fillMaxSize(),
+                        color = MaterialTheme.colorScheme.background
+                    ) {
+                        AddItemView(obj)
+                    }
                 }
             }
+        }catch (ex: Exception){
+            Toast.makeText(this@AddItemActivity, "Error occurred: ${ex.localizedMessage}", Toast.LENGTH_LONG).show()
         }
+
     }
 }
 
@@ -169,7 +175,7 @@ fun AddItemView(obj: ArrayList<GroceryItem>) {
                     intent.putExtra("BUNDLE", arguments)
                     context.startActivity(intent)
                 }catch (ex:Exception){
-                    ex.message
+                    Toast.makeText(context, "Error occurred: ${ex.localizedMessage}", Toast.LENGTH_LONG).show()
                 }
 
             }

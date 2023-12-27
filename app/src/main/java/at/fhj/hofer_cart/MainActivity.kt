@@ -2,6 +2,7 @@ package at.fhj.hofer_cart
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
@@ -37,30 +38,35 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        appDatabase = AppDatabase.getDatabase(this)
-        val intent = intent
-        var obj:List<GroceryItem> = ArrayList<GroceryItem>()
+        try{
+            appDatabase = AppDatabase.getDatabase(this)
+            val intent = intent
+            var obj:List<GroceryItem> = ArrayList<GroceryItem>()
 
-        if(intent.hasExtra("BUNDLE")){
-            val args = intent.getBundleExtra("BUNDLE")
-            obj = args?.getSerializable("LIST") as ArrayList<GroceryItem>
-        }
-        if(obj.isEmpty()){
-            obj = appDatabase.GroceryItemDao().getAll() as ArrayList<GroceryItem>
-        }
-        obj = obj.sortedWith(groceryItemComparator)
+            if(intent.hasExtra("BUNDLE")){
+                val args = intent.getBundleExtra("BUNDLE")
+                obj = args?.getSerializable("LIST") as ArrayList<GroceryItem>
+            }
+            if(obj.isEmpty()){
+                obj = appDatabase.GroceryItemDao().getAll() as ArrayList<GroceryItem>
+            }
+            obj = obj.sortedWith(groceryItemComparator)
 
-        setContent {
-            Hofer_cartTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    ShoppingView(obj)
+            setContent {
+                Hofer_cartTheme {
+                    // A surface container using the 'background' color from the theme
+                    Surface(
+                        modifier = Modifier.fillMaxSize(),
+                        color = MaterialTheme.colorScheme.background
+                    ) {
+                        ShoppingView(obj)
+                    }
                 }
             }
+        }catch (ex: Exception){
+            Toast.makeText(this@MainActivity, "Error occurred: ${ex.localizedMessage}", Toast.LENGTH_LONG).show()
         }
+
     }
 }
 

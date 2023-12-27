@@ -9,17 +9,18 @@
     <string name="category">Kategorie</string>
     <string name="addItem">Lebensmittel hinzufügen</string>
 
-    <string name="errorName">"Bitte geben Sie einen gültigen Titel ein"</string>
-    <string name="errorAmount">"Bitte geben Sie eine gültige Anzahl ein"</string>
-    <string name="errorUnit">"Bitte geben Sie eine gültige Einheit ein"</string>
-    <string name="errorCategory">"Bitte geben Sie eine gültige Kategorie ein"</string>
+    <string name="errorName">Bitte geben Sie einen gültigen Titel ein</string>
+    <string name="errorAmount">Bitte geben Sie eine gültige Anzahl ein</string>
+    <string name="errorUnit">Bitte geben Sie eine gültige Einheit ein</string>
+    <string name="errorCategory">Bitte geben Sie eine gültige Kategorie ein</string>
 
-    <string name="fruits">"Früchte"</string>
-    <string name="vegetables">"Gemüse"</string>
-    <string name="meat">"Fleisch"</string>
-    <string name="bakery">"Bäckerei"</string>
-    <string name="beverages">"Getränke"</string>
-    <string name="snacks">"Zwischenmahlzeit"</string>
-    <string name="frozen">"Gefroren"</string>
-    <string name="other">"Andere"</string>
+    <string name="fruits">Früchte</string>
+    <string name="vegetables">Gemüse</string>
+    <string name="meat">Fleisch</string>
+    <string name="bakery">Bäckerei</string>
+    <string name="beverages">Getränke</string>
+    <string name="snacks">Zwischenmahlzeit</string>
+    <string name="frozen">Gefroren</string>
+    <string name="other">Andere</string>
+
 </resources>
