@@ -70,7 +70,7 @@ class MainActivity : ComponentActivity() {
 fun ShoppingView(itemList: List<GroceryItem>) {
     var text by remember { mutableStateOf("") }
     var items by remember { mutableStateOf(listOf<GroceryItem>()) }
-
+    val context = LocalContext.current
     if(itemList != null && itemList.isNotEmpty()){
         items = itemList
     }
@@ -96,11 +96,11 @@ fun ShoppingView(itemList: List<GroceryItem>) {
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Text(
-                        text = "HoferCart" ,
+                        text = context.getString(R.string.title) ,
                         fontSize = 30.sp,
                     )
 
-                    val context = LocalContext.current
+
 
                     Button(onClick = {
                         val intent = Intent(context, AddItemActivity::class.java)

@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">hofer_cart</string>
+    <string name="title">HoferCart</string>
+    <string name="name">Name</string>
+    <string name="amount">Amount</string>
+    <string name="unit">Unit</string>
+    <string name="category">Category</string>
+    <string name="addItem">Add Item</string>
+
+    <string name="errorName">"Please enter a valid name"</string>
+    <string name="errorAmount">"Please enter a valid amount"</string>
+    <string name="errorUnit">"Please enter a valid unit"</string>
+    <string name="errorCategory">"Please enter a valid category"</string>
 </resources>

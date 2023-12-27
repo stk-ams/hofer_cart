@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">hofer_cart</string>
+    <string name="title">HoferWagen</string>
+    <string name="name">Titel</string>
+    <string name="amount">Anzahl</string>
+    <string name="unit">Einheit</string>
+    <string name="category">Kategorie</string>
+    <string name="addItem">Lebensmittel hinzufügen</string>
+
+    <string name="errorName">"Bitte geben Sie einen gültigen Titel ein"</string>
+    <string name="errorAmount">"Bitte geben Sie eine gültige Anzahl ein"</string>
+    <string name="errorUnit">"Bitte geben Sie eine gültige Einheit ein"</string>
+    <string name="errorCategory">"Bitte geben Sie eine gültige Kategorie ein"</string>
+</resources>

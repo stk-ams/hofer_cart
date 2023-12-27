@@ -90,10 +90,10 @@ fun AddItemView(obj: ArrayList<GroceryItem>) {
                 nameEntered = true;
             },
 
-            label = { Text("Name") }
+            label = { Text(context.getString(R.string.name)) }
         )
         if (nameEntered && !nameIsValid) {
-            Text(text = "Please enter a valid name", color = Color.Red)
+            Text(text = context.getString(R.string.errorName), color = Color.Red)
         }
         Spacer(modifier = Modifier.height(16.dp))
 
@@ -107,10 +107,10 @@ fun AddItemView(obj: ArrayList<GroceryItem>) {
                 amountIsValid = it.isNotEmpty() && it.isNotBlank()
                 amountEntered = true
             },
-            label = { Text("Amount") }
+            label = { Text(context.getString(R.string.amount)) }
         )
         if (amountEntered && !amountIsValid) {
-            Text(text = "Please enter a valid amount", color = Color.Red)
+            Text(text = context.getString(R.string.errorAmount), color = Color.Red)
         }
         Spacer(modifier = Modifier.height(16.dp))
 
@@ -121,10 +121,10 @@ fun AddItemView(obj: ArrayList<GroceryItem>) {
                 unitIsValid = input.isNotEmpty()  && input.isNotBlank()
                 unitEntered = true;
             },
-            label = { Text("Unit") }
+            label = { Text(context.getString(R.string.unit)) }
         )
         if (unitEntered && !unitIsValid) {
-            Text(text = "Please enter a valid unit", color = Color.Red)
+            Text(text = context.getString(R.string.errorUnit), color = Color.Red)
         }
         Spacer(modifier = Modifier.height(16.dp))
 
@@ -132,7 +132,7 @@ fun AddItemView(obj: ArrayList<GroceryItem>) {
         selected = true})
 
         categoryIsValid = if(!selected && enterPressed){
-            Text(text = "Please enter a valid category", color = Color.Red)
+            Text(text = context.getString(R.string.errorCategory), color = Color.Red)
             false
         }else{
             true
@@ -175,7 +175,7 @@ fun AddItemView(obj: ArrayList<GroceryItem>) {
             }
 
         }) {
-            Text("Add Item")
+            Text(context.getString(R.string.addItem))
         }
     }
 }
@@ -186,7 +186,7 @@ fun CategoryDropdownMenu(selected:Boolean, items: List<FoodCategory>, selectedIt
     var isExpanded by remember {
         mutableStateOf(false)
     }
-
+    val context = LocalContext.current
     ExposedDropdownMenuBox(
         expanded = isExpanded,
         onExpandedChange = { newValue ->
@@ -207,7 +207,7 @@ fun CategoryDropdownMenu(selected:Boolean, items: List<FoodCategory>, selectedIt
             ExposedDropdownMenuDefaults.TrailingIcon(expanded = isExpanded)
         },
         placeholder = {
-            Text(text = "Category")
+            Text(text = context.getString(R.string.category))
         },
         colors = ExposedDropdownMenuDefaults.textFieldColors(),
         modifier = Modifier.menuAnchor()
