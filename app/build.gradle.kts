@@ -2,6 +2,11 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("kotlin-kapt")
+
+    // Add the Google services Gradle plugin
+
+    id("com.google.gms.google-services")
+
 }
 
 android {
@@ -52,8 +57,20 @@ android {
 
 dependencies {
 
+    implementation("com.google.firebase:firebase-database:20.0.4")
+    implementation("com.google.firebase:firebase-messaging-ktx:23.1.1")
+    implementation("com.google.firebase:firebase-messaging:23.1.1")
+
+    implementation(platform("com.google.firebase:firebase-bom:32.7.0"))
+
+
+
+
+    implementation("com.google.firebase:firebase-analytics")
+
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.4.0")
     implementation("androidx.room:room-runtime:2.4.3")
+    implementation("com.google.firebase:firebase-firestore-ktx:24.10.0")
     // annotationProcessor("androidx.room:room-compiler:2.4.3")
 
     // To use Kotlin annotation processing tool (kapt)

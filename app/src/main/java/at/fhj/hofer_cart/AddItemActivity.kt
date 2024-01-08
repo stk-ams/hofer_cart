@@ -36,11 +36,11 @@ class AddItemActivity : ComponentActivity() {
 
 
             val intent = intent
-            var obj:ArrayList<GroceryItem> = ArrayList<GroceryItem>()
+            var groceryList:ArrayList<GroceryItem> = ArrayList<GroceryItem>()
 
             if(intent.hasExtra("BUNDLE")){
                 val args = intent.getBundleExtra("BUNDLE")
-                obj = args?.getSerializable("LIST") as ArrayList<GroceryItem>
+                groceryList = args?.getSerializable("LIST") as ArrayList<GroceryItem>
             }
 
             setContent {
@@ -50,7 +50,7 @@ class AddItemActivity : ComponentActivity() {
                         modifier = Modifier.fillMaxSize(),
                         color = MaterialTheme.colorScheme.background
                     ) {
-                        AddItemView(obj)
+                        AddItemView(groceryList)
                     }
                 }
             }
@@ -62,7 +62,7 @@ class AddItemActivity : ComponentActivity() {
 }
 
 @Composable
-fun AddItemView(obj: ArrayList<GroceryItem>) {
+fun AddItemView(groceryList: ArrayList<GroceryItem>) {
     var name by remember { mutableStateOf("") }
     var amount by remember { mutableStateOf("") }
     var unit by remember { mutableStateOf("") }
@@ -168,10 +168,12 @@ fun AddItemView(obj: ArrayList<GroceryItem>) {
                 try{
                     val newGroceryItem = GroceryItem(name = name, amount = amount.toInt(), unit = unit, category = category)
                     appDatabase.GroceryItemDao().insert(newGroceryItem)
-                    obj += newGroceryItem
+                    groceryList += newGroceryItem
+                    if(name == "Beer" && amount == "5")
+                        Toast.makeText(context, "I hope you don't have university classes tomorrow ;)", Toast.LENGTH_LONG).show()
                     val intent = Intent(context, MainActivity::class.java)
                     val arguments = Bundle()
-                    arguments.putSerializable("LIST", obj as Serializable)
+                    arguments.putSerializable("LIST", groceryList as Serializable)
                     intent.putExtra("BUNDLE", arguments)
                     context.startActivity(intent)
                 }catch (ex:Exception){
